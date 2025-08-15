@@ -61,7 +61,7 @@ export default function ProfileScreen() {
               {user?.name}
             </Text>
             <Text className="text-sm font-inter-regular text-gray-600 mb-1">
-              {user?.email}
+              {user?.phone}
             </Text>
             <Text className="text-sm font-inter-medium text-primary-600">
               {user?.studentId}

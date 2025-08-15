@@ -8,12 +8,12 @@ import TextInput from '@/components/TextInput';
 import Button from '@/components/Button';
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('9724929634');
+  const [password, setPassword] = useState('123');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ phone?: string; password?: string }>({});
 
   const { login } = useAuth();
   const router = useRouter();
@@ -25,25 +25,21 @@ export default function LoginScreen() {
   const loadRememberedCredentials = async () => {
     const credentials = await authService.getRememberedCredentials();
     if (credentials) {
-      setEmail(credentials.email);
+      setPhone(credentials.phone);
       setPassword(credentials.password);
       setRememberMe(true);
     }
   };
 
   const validateForm = () => {
-    const newErrors: { email?: string; password?: string } = {};
+    const newErrors: { phone?: string; password?: string } = {};
 
-    if (!email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
+    if (!phone) {
+      newErrors.phone = 'Phone is required';
+    } 
 
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
     }
 
     setErrors(newErrors);
@@ -55,7 +51,7 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      await login(email, password, rememberMe);
+      await login(phone, password, rememberMe);
       router.replace('/(tabs)');
     } catch (error) {
       Alert.alert('Login Failed', error instanceof Error ? error.message : 'An error occurred');
@@ -79,13 +75,13 @@ export default function LoginScreen() {
           </Text>
 
           <TextInput
-            label="Email Address"
-            placeholder="Enter your email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
+            label="Phone Number"
+            placeholder="Enter your number"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="numeric"
             autoCapitalize="none"
-            error={errors.email}
+            error={errors.phone}
           />
 
           <View className="mb-4">
@@ -142,13 +138,7 @@ export default function LoginScreen() {
             className="mb-4"
           />
 
-          <View className="bg-gray-100 p-4 rounded-lg">
-            <Text className="text-sm font-inter-medium text-gray-700 mb-1">Demo Credentials:</Text>
-            <Text className="text-xs font-inter-regular text-gray-600">
-              Email: john.doe@student.edu{'\n'}
-              Password: password123
-            </Text>
-          </View>
+         
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

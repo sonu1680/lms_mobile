@@ -5,7 +5,8 @@ import { useAuth } from '@/context/AuthContext';
 import { mockQuickLinks } from '@/services/mockData';
 import Card from '@/components/Card';
 import Badge from '@/components/Badge';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { User } from '@/types';
 
 const iconMap = {
   'calendar-check': Calendar,
@@ -17,22 +18,21 @@ const iconMap = {
 };
 
 export default function DashboardScreen() {
-  const { user, logout } = useAuth();
+  const {  logout } = useAuth();
   const router = useRouter();
-
+  const {student} = useLocalSearchParams();
+  const user:User=JSON.parse(student as string)
   const handleLogout = async () => {
     await logout();
     router.replace('/login');
   };
 
   const handleQuickLinkPress = (route: string) => {
-    console.log("sonu")
     if (route === 'attendance') {
       router.push('/attendance');
     } else if (route === 'faculty') {
       router.push('/faculty');
     }
-    // Other routes can be implemented as needed
   };
 
   return (
@@ -43,7 +43,7 @@ export default function DashboardScreen() {
           <View className="flex-row items-center">
             <View className="w-12 h-12 bg-white/20 rounded-full items-center justify-center mr-4">
               <Text className="text-white text-lg font-inter-bold">
-                {user?.name?.charAt(0) || 'U'}
+                {user?.name?.toUpperCase().charAt(0) || 'U'}
               </Text>
             </View>
             <View>
@@ -51,7 +51,7 @@ export default function DashboardScreen() {
                 Good Morning!
               </Text>
               <Text className="text-white/90 text-sm font-inter-regular">
-                {user?.name || 'Student'}
+                {user?.name?.toUpperCase() || 'Student'}
               </Text>
             </View>
           </View>
@@ -67,21 +67,23 @@ export default function DashboardScreen() {
           <Text className="text-xl font-inter-bold text-gray-900 mb-2">
             Your Information
           </Text>
-          
-
 
           <Card variant="elevated">
             <View className="flex-row justify-between items-center">
               <View>
-                <Text className="text-sm font-inter-medium text-gray-500">Name</Text>
-                <Text className="text-lg font-inter-semibold text-gray-900">
-                  {user?.name}
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Name
+                </Text>
+                <Text className="text-md font-inter-semibold text-gray-900">
+                  {user?.name.toUpperCase() || 'N/A'}
                 </Text>
               </View>
               <View>
-                <Text className="text-sm font-inter-medium text-gray-500">Student ID</Text>
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Enrollment No
+                </Text>
                 <Text className="text-lg font-inter-semibold text-gray-900">
-                  {user?.studentId}
+                  {user?.enrollment}
                 </Text>
               </View>
             </View>
@@ -90,9 +92,27 @@ export default function DashboardScreen() {
           <Card variant="elevated">
             <View className="flex-row justify-between items-center">
               <View>
-                <Text className="text-sm font-inter-medium text-gray-500">Email</Text>
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Grade
+                </Text>
                 <Text className="text-base font-inter-regular text-gray-900">
-                  {user?.email}
+                  {user?.grade}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Section
+                </Text>
+                <Text className="text-base font-inter-regular text-gray-900">
+                  {user?.section}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Roll No
+                </Text>
+                <Text className="text-base font-inter-regular text-gray-900">
+                  {user?.rollNo || 'N/A'}
                 </Text>
               </View>
             </View>
@@ -101,15 +121,19 @@ export default function DashboardScreen() {
           <Card variant="elevated">
             <View className="flex-row justify-between items-center">
               <View>
-                <Text className="text-sm font-inter-medium text-gray-500">School</Text>
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Class Teacher
+                </Text>
                 <Text className="text-lg font-inter-semibold text-gray-900">
-                  {user?.schoolName}
+                  {user?.teacherName}
                 </Text>
               </View>
               <View>
-                <Text className="text-sm font-inter-medium text-gray-500">Class & Section</Text>
+                <Text className="text-sm font-inter-medium text-gray-500">
+                  Teacher Phone
+                </Text>
                 <Text className="text-lg font-inter-semibold text-gray-900">
-                  {user?.class} - {user?.section}
+                  {user?.teacherPhone}
                 </Text>
               </View>
             </View>
@@ -121,20 +145,20 @@ export default function DashboardScreen() {
           <Text className="text-xl font-inter-bold text-gray-900 mb-4">
             Quick Access
           </Text>
-          
+
           <View className="flex-row flex-wrap justify-between">
             {mockQuickLinks.map((link) => {
               const IconComponent = iconMap[link.icon as keyof typeof iconMap];
-              
+
               return (
-                <Pressable
-                  key={link.id}
-                
-                  className="w-[48%] mb-4"
-                >
-                  <Card variant="elevated" className="items-center p-6 active:scale-95 " onPress={()=>handleQuickLinkPress(link.route)} >
+                <Pressable key={link.id} className="w-[48%] mb-4">
+                  <Card
+                    variant="elevated"
+                    className="items-center p-6 active:scale-95 "
+                    onPress={() => handleQuickLinkPress(link.route)}
+                  >
                     <View className="relative">
-                      <View 
+                      <View
                         className="w-12 h-12 rounded-full items-center justify-center mb-3"
                         style={{ backgroundColor: `${link.color}15` }}
                       >

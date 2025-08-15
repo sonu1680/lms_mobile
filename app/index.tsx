@@ -7,10 +7,11 @@ export default function IndexScreen() {
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
+  
   useEffect(() => {
     if (!loading) {
       if (isAuthenticated) {
-        router.replace('/(tabs)');
+        router.replace('/section');
       } else {
         router.replace('/login');
       }

@@ -1,17 +1,21 @@
 export interface User {
-  id: string;
+  classId: string;
+  classRoom: string;
+  enrollment: string;
+  grade: string;
+  institutionName: string;
+  institutionPhone: string;
   name: string;
-  email: string;
-  schoolName: string;
-  avatar?: string;
-  studentId: string;
-  class: string;
+  rollNo: string;
   section: string;
+  teacherEmail: string;
+  teacherName: string;
+  teacherPhone: string;
 }
 
 export interface AuthState {
   isAuthenticated: boolean;
-  user: User | null;
+  user: User[] | null;
   loading: boolean;
 }
 

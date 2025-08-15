@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, Pressable, TextInput } from 'react-native';
 import { Search, Filter, ChevronRight, Mail, Phone } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { mockFaculty } from '@/services/mockData';
 import Card from '@/components/Card';
 
@@ -9,14 +9,21 @@ export default function FacultyScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
   const router = useRouter();
+     
+  const departments = [
+    'all',
+    ...Array.from(new Set(mockFaculty.map((f) => f.department))),
+  ];
 
-  const departments = ['all', ...Array.from(new Set(mockFaculty.map(f => f.department)))];
-  
-  const filteredFaculty = mockFaculty.filter(faculty => {
-    const matchesSearch = faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         faculty.subjects.some(subject => subject.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesDepartment = selectedDepartment === 'all' || faculty.department === selectedDepartment;
-    
+  const filteredFaculty = mockFaculty.filter((faculty) => {
+    const matchesSearch =
+      faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faculty.subjects.some((subject) =>
+        subject.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    const matchesDepartment =
+      selectedDepartment === 'all' || faculty.department === selectedDepartment;
+
     return matchesSearch && matchesDepartment;
   });
 
@@ -54,7 +61,11 @@ export default function FacultyScreen() {
         </View>
 
         {/* Department Filter */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6">
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-6"
+        >
           <View className="flex-row space-x-3">
             {departments.map((dept) => (
               <Pressable
@@ -66,9 +77,11 @@ export default function FacultyScreen() {
                     : 'bg-white border border-gray-200'
                 }`}
               >
-                <Text className={`text-sm font-inter-medium capitalize ${
-                  selectedDepartment === dept ? 'text-white' : 'text-gray-700'
-                }`}>
+                <Text
+                  className={`text-sm font-inter-medium capitalize ${
+                    selectedDepartment === dept ? 'text-white' : 'text-gray-700'
+                  }`}
+                >
                   {dept}
                 </Text>
               </Pressable>
@@ -88,10 +101,13 @@ export default function FacultyScreen() {
               <View className="flex-row items-center">
                 <View className="w-16 h-16 bg-secondary-100 rounded-full items-center justify-center mr-4">
                   <Text className="text-secondary-600 text-xl font-inter-bold">
-                    {faculty.name.split(' ').map(n => n[0]).join('')}
+                    {faculty.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')}
                   </Text>
                 </View>
-                
+
                 <View className="flex-1">
                   <Text className="text-lg font-inter-semibold text-gray-900 mb-1">
                     {faculty.name}
@@ -102,7 +118,7 @@ export default function FacultyScreen() {
                   <Text className="text-xs font-inter-regular text-gray-600 mb-2">
                     {faculty.subjects.join(', ')}
                   </Text>
-                  
+
                   <View className="flex-row items-center space-x-4">
                     <View className="flex-row items-center">
                       <Mail size={14} color="#6B7280" />
@@ -118,7 +134,7 @@ export default function FacultyScreen() {
                     </View>
                   </View>
                 </View>
-                
+
                 <ChevronRight size={20} color="#9CA3AF" />
               </View>
             </Card>
