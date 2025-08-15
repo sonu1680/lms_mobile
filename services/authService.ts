@@ -48,6 +48,7 @@ export const authService = {
     try {
       const userData = await SecureStore.getItemAsync(AUTH_KEY);
       return userData ? JSON.parse(userData) : null;
+
     } catch (error) {
       return null;
     }

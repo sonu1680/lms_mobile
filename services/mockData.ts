@@ -25,63 +25,7 @@ export const mockAttendanceSummary: AttendanceSummary[] = [
   { subjectId: '5', totalClasses: 19, presentClasses: 17, absentClasses: 1, lateClasses: 1, percentage: 89.5 }
 ];
 
-export const mockFaculty: Faculty[] = [
-  {
-    id: '1',
-    name: 'Dr. Robert Smith',
-    email: 'r.smith@university.edu',
-    phone: '+1 234-567-8901',
-    department: 'Mathematics',
-    subjects: ['Mathematics', 'Statistics'],
-    officeHours: 'Mon-Wed 2:00 PM - 4:00 PM',
-    designation: 'Professor',
-    experience: '15 years'
-  },
-  {
-    id: '2',
-    name: 'Prof. Sarah Johnson',
-    email: 's.johnson@university.edu',
-    phone: '+1 234-567-8902',
-    department: 'Physics',
-    subjects: ['Physics', 'Quantum Mechanics'],
-    officeHours: 'Tue-Thu 10:00 AM - 12:00 PM',
-    designation: 'Associate Professor',
-    experience: '12 years'
-  },
-  {
-    id: '3',
-    name: 'Dr. Michael Brown',
-    email: 'm.brown@university.edu',
-    phone: '+1 234-567-8903',
-    department: 'Chemistry',
-    subjects: ['Chemistry', 'Organic Chemistry'],
-    officeHours: 'Mon-Fri 1:00 PM - 2:00 PM',
-    designation: 'Professor',
-    experience: '18 years'
-  },
-  {
-    id: '4',
-    name: 'Mr. David Wilson',
-    email: 'd.wilson@university.edu',
-    phone: '+1 234-567-8904',
-    department: 'Computer Science',
-    subjects: ['Programming', 'Data Structures'],
-    officeHours: 'Wed-Fri 3:00 PM - 5:00 PM',
-    designation: 'Assistant Professor',
-    experience: '8 years'
-  },
-  {
-    id: '5',
-    name: 'Ms. Emily Davis',
-    email: 'e.davis@university.edu',
-    phone: '+1 234-567-8905',
-    department: 'English',
-    subjects: ['English Literature', 'Creative Writing'],
-    officeHours: 'Tue-Thu 11:00 AM - 1:00 PM',
-    designation: 'Associate Professor',
-    experience: '10 years'
-  }
-];
+
 
 export const mockQuickLinks: QuickLink[] = [
   { id: '1', title: 'Attendance', icon: 'calendar-check', badge: 2, route: 'attendance', color: '#3B82F6' },

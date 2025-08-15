@@ -9,7 +9,6 @@ import { SubjectInfo } from '@/types';
 export default function facultyProfileProfileScreen() {
   const {profile} = useLocalSearchParams();
   const facultyProfile:SubjectInfo=JSON.parse(profile as string);
-console.log(facultyProfile);
   if (!facultyProfile) {
     return (
       <View className="flex-1 bg-gray-50 items-center justify-center">

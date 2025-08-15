@@ -10,8 +10,7 @@ export default function FacultyLayout() {
           headerShown: false,
         }}
       />
-             <Stack.Screen name="facultyProfile" />
-     
+      <Stack.Screen name="facultyProfile" />
     </Stack>
   );
 }

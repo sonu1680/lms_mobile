@@ -11,7 +11,7 @@ export default function IndexScreen() {
   useEffect(() => {
     if (!loading) {
       if (isAuthenticated) {
-        router.replace('/section');
+        router.replace('/studentList');
       } else {
         router.replace('/login');
       }
