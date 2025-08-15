@@ -1,29 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
-import { Calendar, Filter, ChevronRight } from 'lucide-react-native';
+import {
+  Calendar,
+  Filter,
+  CheckCircle,
+  XCircle,
+  Clock,
+} from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import { mockSubjects, mockAttendanceSummary } from '@/services/mockData';
+import axios from 'axios';
 import Card from '@/components/Card';
+import { AttendanceRecord } from '@/types';
 
 export default function AttendanceScreen() {
-  const [selectedFilter, setSelectedFilter] = useState('all');
   const router = useRouter();
+  const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getStatusColor = (percentage: number) => {
-    if (percentage >= 85) return '#10B981';
-    if (percentage >= 75) return '#F59E0B';
-    return '#EF4444';
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case 'PRESENT':
+        return { color: '#10B981', bg: 'bg-green-100' };
+      case 'ABSENT':
+        return { color: '#EF4444', bg: 'bg-red-100' };
+      case 'LATE':
+        return { color: '#F59E0B', bg: 'bg-yellow-100' };
+      default:
+        return { color: '#6B7280', bg: 'bg-gray-100' };
+    }
   };
 
-  const getStatusText = (percentage: number) => {
-    if (percentage >= 85) return 'Excellent';
-    if (percentage >= 75) return 'Good';
-    return 'Poor';
+  const getAttendance = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.get(
+        `${process.env.BACKEND_URl}/attendance/getAttendance?studentId=2530003`
+      );
+      setAttendance(res.data);
+    } catch (error) {
+      console.error('Failed to fetch attendance data', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSubjectPress = (subjectId: string, subjectName: string) => {
-    router.push(`/attendance/${subjectId}?name=${encodeURIComponent(subjectName)}`);
-  };
+  useEffect(() => {
+    getAttendance();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-gray-50">
+        <Text className="text-lg font-inter-medium text-gray-700">
+          Loading attendance...
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-gray-50">
@@ -41,7 +74,7 @@ export default function AttendanceScreen() {
       <View className="px-6 mt-6">
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-lg font-inter-bold text-gray-900">
-            Your Subjects
+            Your Records
           </Text>
           <Pressable className="flex-row items-center bg-white px-4 py-2 rounded-lg border border-gray-200">
             <Calendar size={16} color="#6B7280" />
@@ -53,87 +86,49 @@ export default function AttendanceScreen() {
         </View>
       </View>
 
+      {/* Attendance List */}
       <ScrollView className="flex-1 px-6" showsVerticalScrollIndicator={false}>
-        {mockSubjects.map((subject) => {
-          const summary = mockAttendanceSummary.find(s => s.subjectId === subject.id);
-          if (!summary) return null;
-
+        {attendance.map((e) => {
+          const styles = getStatusStyles(e.status);
           return (
-            <Pressable
-              key={subject.id}
-              onPress={() => handleSubjectPress(subject.id, subject.name)}
-              className="mb-4"
+            <Card
+              key={e.id}
+              variant="elevated"
+              className="flex-row items-center justify-between p-4 mb-4 rounded-xl"
             >
-              <Card variant="elevated" className="active:scale-98">
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-1">
-                    <View className="flex-row items-center mb-2">
-                      <View 
-                        className="w-4 h-4 rounded-full mr-3"
-                        style={{ backgroundColor: subject.color }}
-                      />
-                      <Text className="text-lg font-inter-semibold text-gray-900">
-                        {subject.name}
-                      </Text>
-                    </View>
-                    
-                    <Text className="text-sm font-inter-medium text-gray-600 mb-2">
-                      {subject.teacher} • {subject.code}
+              <View className="flex-row items-center space-x-3">
+                {e.status === 'PRESENT' && (
+                  <CheckCircle size={24} color={styles.color} />
+                )}
+                {e.status === 'ABSENT' && (
+                  <XCircle size={24} color={styles.color} />
+                )}
+                {e.status === 'LATE' && (
+                  <Clock size={24} color={styles.color} />
+                )}
+
+                <View>
+                  <Text className="text-base font-inter-semibold text-gray-900">
+                    {new Date(e.date).toLocaleDateString('en-GB', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                    })}
+                  </Text>
+                  <View
+                    className={`mt-1 px-3 py-1 rounded-full ${styles.bg}`}
+                    style={{ alignSelf: 'flex-start' }}
+                  >
+                    <Text
+                      style={{ color: styles.color }}
+                      className="text-sm font-inter-medium"
+                    >
+                      {e.status}
                     </Text>
-
-                    <View className="flex-row items-center justify-between">
-                      <View className="flex-row space-x-4">
-                        <View>
-                          <Text className="text-xs font-inter-medium text-gray-500">
-                            Present
-                          </Text>
-                          <Text className="text-sm font-inter-semibold text-secondary-600">
-                            {summary.presentClasses}/{summary.totalClasses}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text className="text-xs font-inter-medium text-gray-500">
-                            Percentage
-                          </Text>
-                          <Text 
-                            className="text-sm font-inter-bold"
-                            style={{ color: getStatusColor(summary.percentage) }}
-                          >
-                            {summary.percentage.toFixed(1)}%
-                          </Text>
-                        </View>
-                        <View>
-                          <Text className="text-xs font-inter-medium text-gray-500">
-                            Status
-                          </Text>
-                          <Text 
-                            className="text-sm font-inter-semibold"
-                            style={{ color: getStatusColor(summary.percentage) }}
-                          >
-                            {getStatusText(summary.percentage)}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-
-                    {/* Progress Bar */}
-                    <View className="mt-3">
-                      <View className="bg-gray-200 rounded-full h-2">
-                        <View 
-                          className="h-2 rounded-full"
-                          style={{ 
-                            backgroundColor: getStatusColor(summary.percentage),
-                            width: `${summary.percentage}%`
-                          }}
-                        />
-                      </View>
-                    </View>
                   </View>
-                  
-                  <ChevronRight size={20} color="#9CA3AF" className="ml-4" />
                 </View>
-              </Card>
-            </Pressable>
+              </View>
+            </Card>
           );
         })}
 

@@ -27,14 +27,13 @@ export interface Subject {
   color: string;
 }
 
-export interface AttendanceRecord {
+export type AttendanceRecord = {
   id: string;
-  subjectId: string;
+  studentId: string;
+  subjectId: string | null;
   date: string;
-  status: 'present' | 'absent' | 'late';
-  period: number;
-  remarks?: string;
-}
+  status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
+};
 
 export interface AttendanceSummary {
   subjectId: string;
@@ -76,3 +75,5 @@ export interface QuickLink {
   route: string;
   color: string;
 }
+
+
