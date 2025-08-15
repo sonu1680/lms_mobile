@@ -1,37 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Pressable, TextInput } from 'react-native';
-import { Search, Filter, ChevronRight, Mail, Phone } from 'lucide-react-native';
+import {  ChevronRight, Mail, Phone } from 'lucide-react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { mockFaculty } from '@/services/mockData';
 import Card from '@/components/Card';
+import axios from 'axios';
+import { Faculty, SubjectInfo } from '@/types';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FacultyScreen() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDepartment, setSelectedDepartment] = useState('all');
-  const router = useRouter();
-     
-  const departments = [
-    'all',
-    ...Array.from(new Set(mockFaculty.map((f) => f.department))),
-  ];
+const [facultyList, setFacultyList] = useState<SubjectInfo[] | null>([]);
+const [isLoading,setIsLoading]=useState<boolean>(false);
+const router = useRouter();
+     const { classId } = useLocalSearchParams();
 
-  const filteredFaculty = mockFaculty.filter((faculty) => {
-    const matchesSearch =
-      faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      faculty.subjects.some((subject) =>
-        subject.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    const matchesDepartment =
-      selectedDepartment === 'all' || faculty.department === selectedDepartment;
+  const handleFacultyPress = (facultyProfile:SubjectInfo) => {
+ router.push({
+   pathname: `/faculty/facultyProfile`,
+   params: { profile: JSON.stringify(facultyProfile) },
+ });  };
+const getFaculty=async()=>{
+  try {
+    setIsLoading(true);
+    const data = await axios.get(
+      `${process.env.BACKEND_URL}/student/facultyTeachesToStudentList?classId=${classId}`
+    );
+    setFacultyList(data.data[0].subjects);
+return
+  } catch (error) {
+    throw new Error('Failed to fetch faculty list');
+  }
+  finally{    setIsLoading(false);
+}
+}
 
-    return matchesSearch && matchesDepartment;
-  });
+useEffect(()=>{
+getFaculty();
+},[])
 
-  const handleFacultyPress = (facultyId: string) => {
-    router.push(`/faculty/${facultyId}`);
-  };
-
+if(isLoading){
   return (
+    <SafeAreaView className="flex-1 bg-gray-50 items-center justify-center">
+      <View className="flex-1 bg-gray-50 items-center justify-center">
+        <Text className="text-lg font-inter-semibold text-gray-900 mb-4">
+          Loading Faculty...
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+}
+  return (
+
     <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View className="bg-secondary-500 pt-12 pb-6 px-6 rounded-b-3xl">
@@ -44,64 +63,22 @@ export default function FacultyScreen() {
       </View>
 
       {/* Search and Filter */}
-      <View className="px-6 mt-6">
-        <View className="flex-row items-center space-x-3 mb-4">
-          <View className="flex-1 bg-white rounded-lg border border-gray-200 flex-row items-center px-4">
-            <Search size={20} color="#6B7280" />
-            <TextInput
-              placeholder="Search faculty or subjects..."
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              className="flex-1 ml-3 py-3 text-base font-inter-regular"
-            />
-          </View>
-          <Pressable className="bg-white p-3 rounded-lg border border-gray-200">
-            <Filter size={20} color="#6B7280" />
-          </Pressable>
-        </View>
-
-        {/* Department Filter */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className="mb-6"
-        >
-          <View className="flex-row space-x-3">
-            {departments.map((dept) => (
-              <Pressable
-                key={dept}
-                onPress={() => setSelectedDepartment(dept)}
-                className={`px-4 py-2 rounded-full ${
-                  selectedDepartment === dept
-                    ? 'bg-secondary-500'
-                    : 'bg-white border border-gray-200'
-                }`}
-              >
-                <Text
-                  className={`text-sm font-inter-medium capitalize ${
-                    selectedDepartment === dept ? 'text-white' : 'text-gray-700'
-                  }`}
-                >
-                  {dept}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-        </ScrollView>
-      </View>
+      <View className="px-6 mt-6"></View>
 
       <ScrollView className="flex-1 px-6" showsVerticalScrollIndicator={false}>
-        {filteredFaculty.map((faculty) => (
+
+
+        { facultyList&& facultyList.map((faculty) => (
           <Pressable
-            key={faculty.id}
-            onPress={() => handleFacultyPress(faculty.id)}
+            key={faculty.teacherEmployeeId}
+            onPress={() => handleFacultyPress(faculty)}
             className="mb-4"
           >
             <Card variant="elevated" className="active:scale-98">
               <View className="flex-row items-center">
                 <View className="w-16 h-16 bg-secondary-100 rounded-full items-center justify-center mr-4">
                   <Text className="text-secondary-600 text-xl font-inter-bold">
-                    {faculty.name
+                    {faculty.teacherName
                       .split(' ')
                       .map((n) => n[0])
                       .join('')}
@@ -110,29 +87,14 @@ export default function FacultyScreen() {
 
                 <View className="flex-1">
                   <Text className="text-lg font-inter-semibold text-gray-900 mb-1">
-                    {faculty.name}
+                    {faculty.teacherName}
                   </Text>
                   <Text className="text-sm font-inter-medium text-secondary-600 mb-1">
-                    {faculty.designation} • {faculty.department}
+                    Teacher • {faculty.subjectName}
                   </Text>
-                  <Text className="text-xs font-inter-regular text-gray-600 mb-2">
-                    {faculty.subjects.join(', ')}
-                  </Text>
+                 
 
-                  <View className="flex-row items-center space-x-4">
-                    <View className="flex-row items-center">
-                      <Mail size={14} color="#6B7280" />
-                      <Text className="text-xs font-inter-regular text-gray-600 ml-1">
-                        Available
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center">
-                      <Phone size={14} color="#6B7280" />
-                      <Text className="text-xs font-inter-regular text-gray-600 ml-1">
-                        {faculty.experience}
-                      </Text>
-                    </View>
-                  </View>
+                 
                 </View>
 
                 <ChevronRight size={20} color="#9CA3AF" />

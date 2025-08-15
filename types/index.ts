@@ -45,18 +45,28 @@ export interface AttendanceSummary {
   percentage: number;
 }
 
-export interface Faculty {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  department: string;
-  subjects: string[];
-  photo?: string;
-  officeHours: string;
-  designation: string;
-  experience: string;
-}
+
+export type TeacherInfo = {
+  classTeacherName: string;
+  classTeacherEmail: string;
+  classTeacherPhone: string;
+  classTeacherId: string;
+  classTeacherEmployeeId:string;
+  subjects: SubjectInfo[];
+};
+
+export type SubjectInfo = {
+  subjectName: string;
+  subjectCode: string;
+  teacherName: string;
+  teacherEmail: string;
+  teacherPhone: string;
+  teacherEmployeeId: string;
+  teacherId:string;
+};
+
+
+export type Faculty = TeacherInfo[];
 
 export interface QuickLink {
   id: string;

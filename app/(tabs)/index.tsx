@@ -27,11 +27,11 @@ export default function DashboardScreen() {
     router.replace('/login');
   };
 
-  const handleQuickLinkPress = (route: string) => {
+  const handleQuickLinkPress = (route: string,classId:string) => {
     if (route === 'attendance') {
       router.push('/attendance');
     } else if (route === 'faculty') {
-      router.push('/faculty');
+      router.push({ pathname: `/faculty`, params: {classId:classId} })
     }
   };
 
@@ -155,7 +155,7 @@ export default function DashboardScreen() {
                   <Card
                     variant="elevated"
                     className="items-center p-6 active:scale-95 "
-                    onPress={() => handleQuickLinkPress(link.route)}
+                    onPress={() => handleQuickLinkPress(link.route,user.classId)}
                   >
                     <View className="relative">
                       <View

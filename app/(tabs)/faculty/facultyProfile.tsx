@@ -2,52 +2,53 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable, Linking } from 'react-native';
 import { Mail, Phone, Clock, BookOpen, Award } from 'lucide-react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { mockFaculty } from '@/services/mockData';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
+import { SubjectInfo } from '@/types';
 
-export default function FacultyProfileScreen() {
-  const { id } = useLocalSearchParams();
-  const faculty = mockFaculty.find(f => f.id === id);
-
-  if (!faculty) {
+export default function facultyProfileProfileScreen() {
+  const {profile} = useLocalSearchParams();
+  const facultyProfile:SubjectInfo=JSON.parse(profile as string);
+console.log(facultyProfile);
+  if (!facultyProfile) {
     return (
       <View className="flex-1 bg-gray-50 items-center justify-center">
-        <Text className="text-gray-500">Faculty not found</Text>
+        <Text className="text-gray-500">facultyProfile not found</Text>
       </View>
     );
   }
 
   const handleEmailPress = () => {
-    Linking.openURL(`mailto:${faculty.email}`);
+    Linking.openURL(`mailto:${facultyProfile.teacherEmail}`);
   };
 
   const handlePhonePress = () => {
-    if (faculty.phone) {
-      Linking.openURL(`tel:${faculty.phone}`);
+    if (facultyProfile.teacherPhone) {
+      Linking.openURL(`tel:${facultyProfile.teacherPhone}`);
     }
   };
 
   return (
     <View className="flex-1 bg-gray-50">
-      <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1 px-6 pt-6"
+        showsVerticalScrollIndicator={false}
+      >
         {/* Profile Header */}
         <Card variant="elevated" className="items-center mb-6">
           <View className="w-24 h-24 bg-secondary-100 rounded-full items-center justify-center mb-4">
             <Text className="text-secondary-600 text-3xl font-inter-bold">
-              {faculty.name.split(' ').map(n => n[0]).join('')}
+              {facultyProfile.teacherName.slice(0, 2).toUpperCase()}
             </Text>
           </View>
-          
+
           <Text className="text-2xl font-inter-bold text-gray-900 text-center mb-1">
-            {faculty.name}
+            {facultyProfile.teacherName}
           </Text>
           <Text className="text-base font-inter-medium text-secondary-600 mb-2">
-            {faculty.designation}
+            {facultyProfile.subjectName}
           </Text>
-          <Text className="text-sm font-inter-regular text-gray-600 text-center">
-            {faculty.department} Department
-          </Text>
+        
         </Card>
 
         {/* Contact Information */}
@@ -55,8 +56,8 @@ export default function FacultyProfileScreen() {
           <Text className="text-lg font-inter-bold text-gray-900 mb-4">
             Contact Information
           </Text>
-          
-          <Pressable 
+
+          <Pressable
             onPress={handleEmailPress}
             className="flex-row items-center py-3 border-b border-gray-100"
           >
@@ -68,13 +69,13 @@ export default function FacultyProfileScreen() {
                 Email Address
               </Text>
               <Text className="text-sm font-inter-regular text-blue-600">
-                {faculty.email}
+                {facultyProfile.teacherEmail}
               </Text>
             </View>
           </Pressable>
 
-          {faculty.phone && (
-            <Pressable 
+          {facultyProfile.teacherPhone && (
+            <Pressable
               onPress={handlePhonePress}
               className="flex-row items-center py-3"
             >
@@ -86,7 +87,7 @@ export default function FacultyProfileScreen() {
                   Phone Number
                 </Text>
                 <Text className="text-sm font-inter-regular text-green-600">
-                  {faculty.phone}
+                  {facultyProfile.teacherPhone}
                 </Text>
               </View>
             </Pressable>
@@ -107,14 +108,14 @@ export default function FacultyProfileScreen() {
                 Available Hours
               </Text>
               <Text className="text-sm font-inter-regular text-gray-600">
-                {faculty.officeHours}
+                8:00 AM - 5:00 PM, Monday to Saturday
               </Text>
             </View>
           </View>
         </Card>
 
         {/* Subjects */}
-        <Card variant="elevated" className="mb-6">
+        {/* <Card variant="elevated" className="mb-6">
           <Text className="text-lg font-inter-bold text-gray-900 mb-4">
             Subjects Teaching
           </Text>
@@ -126,14 +127,14 @@ export default function FacultyProfileScreen() {
               <Text className="text-sm font-inter-medium text-gray-900 mb-1">
                 Current Subjects
               </Text>
-              {faculty.subjects.map((subject, index) => (
+              {facultyProfile.subjects.map((subject, index) => (
                 <Text key={index} className="text-sm font-inter-regular text-gray-600">
                   • {subject}
                 </Text>
               ))}
             </View>
           </View>
-        </Card>
+        </Card> */}
 
         {/* Experience */}
         <Card variant="elevated" className="mb-6">
@@ -149,7 +150,7 @@ export default function FacultyProfileScreen() {
                 Teaching Experience
               </Text>
               <Text className="text-sm font-inter-regular text-gray-600">
-                {faculty.experience} of dedicated teaching
+                4 year of dedicated teaching
               </Text>
             </View>
           </View>
@@ -162,7 +163,7 @@ export default function FacultyProfileScreen() {
             onPress={handleEmailPress}
             className="flex-1"
           />
-          {faculty.phone && (
+          {facultyProfile.teacherPhone && (
             <Button
               title="Call"
               onPress={handlePhonePress}

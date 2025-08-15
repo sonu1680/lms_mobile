@@ -47,7 +47,6 @@ export const authService = {
   async getCurrentUser(): Promise<User[] | null> {
     try {
       const userData = await SecureStore.getItemAsync(AUTH_KEY);
-      console.log("authservice",userData) 
       return userData ? JSON.parse(userData) : null;
     } catch (error) {
       return null;
