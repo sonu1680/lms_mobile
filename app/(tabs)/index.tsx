@@ -28,11 +28,19 @@ export default function DashboardScreen() {
   };
 
   const handleQuickLinkPress = (route: string,classId:string) => {
+    console.log(route)
     if (route === 'attendance') {
       router.push('/attendance');
     } else if (route === 'faculty') {
-      router.push({ pathname: `/faculty`, params: {classId:classId} })
+      router.push({ pathname: `/faculty`, params: { classId: classId } });
+    } else if (route === 'timetable') {
+      router.push({ pathname: `/timeTable`, params: { classId: classId } });
+    } else if (route === 'notices') {
+      router.push({ pathname: `/notices`, params: { classId: classId } });
+    } else if (route === 'result') {
+      router.push({ pathname: `/examResult`, params: { classId: classId } });
     }
+
   };
 
   return (

@@ -8,14 +8,7 @@ export const mockSubjects: Subject[] = [
   { id: '5', name: 'English', code: 'ENG101', teacher: 'Ms. Davis', color: '#EF4444' }
 ];
 
-export const mockAttendanceRecords: AttendanceRecord[] = [
-  { id: '1', subjectId: '1', date: '2024-01-15', status: 'present', period: 1 },
-  { id: '2', subjectId: '1', date: '2024-01-14', status: 'present', period: 1 },
-  { id: '3', subjectId: '1', date: '2024-01-13', status: 'absent', period: 1 },
-  { id: '4', subjectId: '2', date: '2024-01-15', status: 'present', period: 2 },
-  { id: '5', subjectId: '2', date: '2024-01-14', status: 'late', period: 2 },
-  { id: '6', subjectId: '3', date: '2024-01-15', status: 'present', period: 3 }
-];
+
 
 export const mockAttendanceSummary: AttendanceSummary[] = [
   { subjectId: '1', totalClasses: 20, presentClasses: 18, absentClasses: 2, lateClasses: 0, percentage: 90 },
@@ -28,9 +21,9 @@ export const mockAttendanceSummary: AttendanceSummary[] = [
 
 
 export const mockQuickLinks: QuickLink[] = [
-  { id: '1', title: 'Attendance', icon: 'calendar-check', badge: 2, route: 'attendance', color: '#3B82F6' },
+  { id: '1', title: 'Attendance', icon: 'calendar-check', route: 'attendance', color: '#3B82F6' },
   { id: '2', title: 'Faculty', icon: 'users', route: 'faculty', color: '#10B981' },
-  { id: '3', title: 'Marks', icon: 'award', badge: 1, route: 'marks', color: '#F59E0B' },
+  { id: '3', title: 'Result', icon: 'award', route: 'result', color: '#F59E0B' },
   { id: '4', title: 'Timetable', icon: 'clock', route: 'timetable', color: '#8B5CF6' },
   { id: '5', title: 'Notices', icon: 'bell', badge: 5, route: 'notices', color: '#EF4444' },
   { id: '6', title: 'Library', icon: 'book-open', route: 'library', color: '#06B6D4' }
