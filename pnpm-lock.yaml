@@ -125,9 +125,6 @@ importers:
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.17
-      undefined:
-        specifier: \
-        version: link:../..
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
