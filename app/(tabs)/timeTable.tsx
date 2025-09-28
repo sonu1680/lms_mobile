@@ -3,6 +3,7 @@ import { View, Text, FlatList, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
+import NavHeader from '@/components/NavHeader';
 
 const timetable = {
   Monday: [
@@ -51,26 +52,13 @@ const timetable = {
 
 export default function TimeTable() {
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header */}
-      <LinearGradient
-        colors={['#2563eb', '#1e40af']}
-        className="rounded-b-3xl px-6 py-10 mb-6 shadow-md"
-      >
-        <View className="items-center">
-          <View className="bg-white rounded-full p-4 shadow-lg mb-3">
-            <MaterialIcons name="schedule" size={42} color="#2563eb" />
-          </View>
-          <Text className="text-2xl font-extrabold text-white text-center">
-            ABC School
-          </Text>
-          <Text className="text-base text-blue-100 mt-1">Weekly Timetable</Text>
-        </View>
-      </LinearGradient>
+    <View className="flex-1 bg-gray-50">
+      <NavHeader title="TimeTable" description="weekly schedule" />
 
       {/* Timetable */}
       <ScrollView
         contentContainerStyle={{ paddingBottom: 36, paddingHorizontal: 16 }}
+        className='mt-4'
       >
         {Object.entries(timetable).map(([day, slots]) => (
           <View key={day} className="mb-8">
@@ -121,6 +109,6 @@ export default function TimeTable() {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

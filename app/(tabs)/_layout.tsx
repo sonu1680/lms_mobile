@@ -10,8 +10,13 @@ export default function RootLayout() {
       <Stack.Screen name="attendance" />
       <Stack.Screen name="faculty" />
       <Stack.Screen name="timeTable" />
-      <Stack.Screen name="notices" />
-      <Stack.Screen name="examResult" />
+      <Stack.Screen name="notices"  />
+      <Stack.Screen
+        name="examResult"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

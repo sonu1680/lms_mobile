@@ -25,7 +25,6 @@ export default function StudentList() {
   }
 
   const institution = user[0].institutionName;
-
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       {/* Header */}
@@ -40,13 +39,14 @@ export default function StudentList() {
           <Text className="text-2xl font-extrabold text-white text-center">
             {institution}
           </Text>
-          <Text className="text-base text-blue-100 mt-1">
-            Student Directory
-          </Text>
         </View>
       </LinearGradient>
 
       {/* Student List */}
+      <View className='p-6' >
+
+      <Text className='text-xl font-bold' >Student List</Text>
+      </View>
       <FlatList
         data={user}
         keyExtractor={(item, index) => index.toString()}

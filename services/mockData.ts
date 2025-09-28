@@ -18,7 +18,22 @@ export const mockAttendanceSummary: AttendanceSummary[] = [
   { subjectId: '5', totalClasses: 19, presentClasses: 17, absentClasses: 1, lateClasses: 1, percentage: 89.5 }
 ];
 
-
+  export const DAILY_ATTENDANCE = [
+    {
+      id: 1,
+      status: 'PRESENT',
+      date: Date.now(),
+      checkin: Date.now(),
+      checkout: Date.now(),
+    },
+    {
+      id: 2,
+      status: 'ABSENT',
+      date: Date.now(),
+      checkin: Date.now(),
+      checkout: Date.now(),
+    },
+  ];
 
 export const mockQuickLinks: QuickLink[] = [
   { id: '1', title: 'Attendance', icon: 'calendar-check', route: 'attendance', color: '#3B82F6' },

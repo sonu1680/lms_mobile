@@ -8,8 +8,8 @@ import TextInput from '@/components/TextInput';
 import Button from '@/components/Button';
 
 export default function LoginScreen() {
-  const [phone, setPhone] = useState('9724929634');
-  const [password, setPassword] = useState('123');
+  const [phone, setPhone] = useState('799008559595');
+  const [password, setPassword] = useState('321');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,6 @@ export default function LoginScreen() {
 
   const { login } = useAuth();
   const router = useRouter();
-
   useEffect(() => {
     loadRememberedCredentials();
   }, []);

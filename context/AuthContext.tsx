@@ -39,6 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (phone: string, password: string, rememberMe: boolean = false) => {
     try {
+
       setState(prev => ({ ...prev, loading: true }));
       const user = await authService.login(phone, password, rememberMe);
       setState({

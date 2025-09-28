@@ -5,6 +5,7 @@ import { useLocalSearchParams } from 'expo-router';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
 import { SubjectInfo } from '@/types';
+import NavHeader from '@/components/NavHeader';
 
 export default function facultyProfileProfileScreen() {
   const {profile} = useLocalSearchParams();
@@ -29,6 +30,7 @@ export default function facultyProfileProfileScreen() {
 
   return (
     <View className="flex-1 bg-gray-50">
+      <NavHeader title="Faculty Profile" description='Contact information' ></NavHeader>
       <ScrollView
         className="flex-1 px-6 pt-6"
         showsVerticalScrollIndicator={false}
@@ -47,7 +49,6 @@ export default function facultyProfileProfileScreen() {
           <Text className="text-base font-inter-medium text-secondary-600 mb-2">
             {facultyProfile.subjectName}
           </Text>
-        
         </Card>
 
         {/* Contact Information */}
@@ -60,7 +61,7 @@ export default function facultyProfileProfileScreen() {
             onPress={handleEmailPress}
             className="flex-row items-center py-3 border-b border-gray-100"
           >
-            <View className="w-10 h-10 bg-blue-50 rounded-full items-center justify-center mr-4">
+            <View className="w-10 h-10 bg-blue-50 rounded-full items-center justify-center mr-4 ">
               <Mail size={20} color="#3B82F6" />
             </View>
             <View>
@@ -113,27 +114,7 @@ export default function facultyProfileProfileScreen() {
           </View>
         </Card>
 
-        {/* Subjects */}
-        {/* <Card variant="elevated" className="mb-6">
-          <Text className="text-lg font-inter-bold text-gray-900 mb-4">
-            Subjects Teaching
-          </Text>
-          <View className="flex-row items-start">
-            <View className="w-10 h-10 bg-purple-50 rounded-full items-center justify-center mr-4">
-              <BookOpen size={20} color="#8B5CF6" />
-            </View>
-            <View className="flex-1">
-              <Text className="text-sm font-inter-medium text-gray-900 mb-1">
-                Current Subjects
-              </Text>
-              {facultyProfile.subjects.map((subject, index) => (
-                <Text key={index} className="text-sm font-inter-regular text-gray-600">
-                  • {subject}
-                </Text>
-              ))}
-            </View>
-          </View>
-        </Card> */}
+     
 
         {/* Experience */}
         <Card variant="elevated" className="mb-6">
@@ -156,7 +137,7 @@ export default function facultyProfileProfileScreen() {
         </Card>
 
         {/* Action Buttons */}
-        <View className="flex-row space-x-3 mb-6">
+        <View className="flex-row  gap-x-6 mb-6">
           <Button
             title="Send Email"
             onPress={handleEmailPress}

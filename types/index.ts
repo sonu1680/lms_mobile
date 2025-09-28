@@ -35,14 +35,28 @@ export type AttendanceRecord = {
   status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
 };
 
-export interface AttendanceSummary {
-  subjectId: string;
-  totalClasses: number;
-  presentClasses: number;
-  absentClasses: number;
-  lateClasses: number;
+export interface SubjectAttendace {
+  subjectCode: string;
+  subjectName: string;
+  absent: number;
+  present: number;
+  total: number;
+  percentage:number
+}
+
+export type DailyAttendace ={
+  presentDays: string;
+  absentDays: string;
+  totalDays: number;
+  attendanceRate: number;
+  attendanceLog: [{
+  id:string,
+  status:string,
+  date:Date
+  }];
   percentage: number;
 }
+
 
 
 export type TeacherInfo = {

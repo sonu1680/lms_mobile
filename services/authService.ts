@@ -1,16 +1,18 @@
 import * as SecureStore from 'expo-secure-store';
 import { User } from '@/types';
 import axios from "axios"
+import { EXPO_BACKEND_URL } from '@/contant';
 const AUTH_KEY = 'user_session';
 const REMEMBER_KEY = 'remember_credentials';
 
 const getUserData=async(phone:string):Promise<User[]|null>=>{
 try {
     const data = await axios.get(
-      `${process.env.BACKEND_URL}/student/getStudentDahboard?parentPhone=${phone}&studentPhone=${phone}`
+      `${EXPO_BACKEND_URL}/student/getStudentDahboard?parentPhone=${phone}&studentPhone=${phone}`
     );
     return data.data;
 } catch (error) {
+  console.log(error)
   return null
 }
 
@@ -19,10 +21,10 @@ try {
 
 export const authService = {
   async login(phone: string, password: string, rememberMe: boolean = false): Promise<User[]> {
+    console.log(phone,"2")
     const studentData =await getUserData(phone);
     if(!studentData || studentData.length===0) {
       throw new Error('Invalid phone or password');}
-
       // Store session
       await SecureStore.setItemAsync(AUTH_KEY, JSON.stringify(studentData));
 
