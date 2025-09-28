@@ -91,3 +91,36 @@ export interface QuickLink {
 }
 
 
+
+
+// Type for Fine (you can extend later if fine has properties)
+interface Fine {
+  id?: string;
+  reason?: string;
+  amount?: number;
+}
+
+// Type for each transaction
+interface Transaction {
+  id: string;
+  studentFeeId: string;
+  amount: number;
+  paymentMode: "ONLINE" | "OFFLINE" | "CASH" | "CARD"; // extend if needed
+  transactionId: string;
+  paidAt: string; // ISO date string
+}
+
+// Type for student fee details
+export interface StudentFee {
+  id: string;
+  name: string;
+  grade: string;
+  section: string;
+  enrollment: string;
+  rollNo: string;
+  dueAmount: number;
+  totalPayable: number;
+  totalPaid: number;
+  transcation: Transaction[];
+  fine: Fine[];
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable, Image, TouchableOpacity } from 'react-native';
-import { LogOut, Calendar, Users, Award, Clock, Bell, BookOpen } from 'lucide-react-native';
+import { LogOut, Calendar, Users, Award, Clock, Bell, BookOpen, Wallet } from 'lucide-react-native';
 import { useAuth } from '@/context/AuthContext';
 import { mockQuickLinks } from '@/services/mockData';
 import Card from '@/components/Card';
@@ -14,7 +14,8 @@ const iconMap = {
   'award': Award,
   'clock': Clock,
   'bell': Bell,
-  'book-open': BookOpen
+  'book-open': BookOpen,
+  "wallet":Wallet
 };
 
 export default function DashboardScreen() {
@@ -39,6 +40,8 @@ export default function DashboardScreen() {
       router.push({ pathname: `/notices`, params: { classId: classId } });
     } else if (route === 'result') {
       router.push({ pathname: `/examResult`, params: { classId: classId } });
+    } else if (route === 'fee') {
+      router.push({ pathname: `/fee`, params: { classId: classId } });
     }
 
   };

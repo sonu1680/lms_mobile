@@ -10,7 +10,9 @@ export default function RootLayout() {
       <Stack.Screen name="attendance" />
       <Stack.Screen name="faculty" />
       <Stack.Screen name="timeTable" />
-      <Stack.Screen name="notices"  />
+      <Stack.Screen name="notices" />
+      <Stack.Screen name="fee" />
+
       <Stack.Screen
         name="examResult"
         options={{

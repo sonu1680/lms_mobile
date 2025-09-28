@@ -41,5 +41,7 @@ export const mockQuickLinks: QuickLink[] = [
   { id: '3', title: 'Result', icon: 'award', route: 'result', color: '#F59E0B' },
   { id: '4', title: 'Timetable', icon: 'clock', route: 'timetable', color: '#8B5CF6' },
   { id: '5', title: 'Notices', icon: 'bell', badge: 5, route: 'notices', color: '#EF4444' },
-  { id: '6', title: 'Library', icon: 'book-open', route: 'library', color: '#06B6D4' }
+  { id: '6', title: 'Library', icon: 'book-open', route: 'library', color: '#06B6D4' },
+    { id: '7', title: 'Fees', icon: 'wallet', route: 'fee', color: '#F4A2D4' }
+
 ];
